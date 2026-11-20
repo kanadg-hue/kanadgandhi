@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Kanad Gandhi</title>
+  <script src="https://paddle.com/paddle/v2/paddle.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .card {
+      background: #252540;
+      padding: 32px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: #ff758c; color: #fff; }
+    .btn-secondary { background: #ffffff; color: #111; }
+    a { color: #aaa; font-size: 14px; display: inline-block; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>The New Parent Health OS</h2>
+    <p>Select your plan below to open secure checkout:</p>
+
+    <button class="btn-secondary" onclick="openPlan('pri_01m5z897d5wsrb7p00ts4724sn')">
+      Single Product — $29
+    </button>
+
+    <button class="btn-primary" onclick="openPlan('YOUR_75_PRICE_ID')">
+      Full Bundle (21 Plugins) — $75
+    </button>
+
+    <a href="https://carrd.co">← Back to main site</a>
+  </div>
+
+  <script>
+    const PRICES = {
+      single: 'pri_01m5z897d5wsrb7p00ts4724sn',
+      bundle: 'YOUR_75_PRICE_ID'
+    };
+
+    Paddle.Initialize({
+      token: 'live_e88f7297e0ae84177a77c7601b4'
+    });
+
+    function openPlan(priceId) {
+      Paddle.Checkout.open({
+        items: [{ priceId: priceId, quantity: 1 }],
+        settings: {
+          successUrl: 'https://carrd.co'
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const plan = params.get('plan');
+      if (plan && PRICES[plan]) {
+        openPlan(PRICES[plan]);
+      }
+    });
+  </script>
+</body>
+</html>
+
